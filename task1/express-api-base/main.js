@@ -21,7 +21,7 @@ async function logAction(action, details) {
             action,
             shop_id: details.store?.store_id || details.inventory?.store_id || null,
             plu: details.inventory?.plu || null,
-            details: details.store || details.inventory || 'No additional details'
+            details: details.store || details.inventory || details || 'No additional details'
         });
         console.log('Action logged:', action);
     } catch (err) {

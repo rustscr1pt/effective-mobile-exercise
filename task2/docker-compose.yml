@@ -1,0 +1,39 @@
+version: "3.4"
+services:
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - user-service
+    networks:
+      - combined-network
+
+  db:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - combined-network
+
+  user-service:
+    build: ./user-service
+    command: npm run start
+    container_name: user-service
+    environment:
+      PORT: 8001
+    networks:
+      - combined-network
+
+networks:
+  combined-network:
+    driver: bridge

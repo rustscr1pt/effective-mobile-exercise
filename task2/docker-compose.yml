@@ -29,6 +29,8 @@ services:
     build: ./user-service
     command: npm run start
     container_name: user-service
+    depends_on:
+      - db
     environment:
       PORT: 8001
     networks:
